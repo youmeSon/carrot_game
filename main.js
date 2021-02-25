@@ -37,13 +37,23 @@ function onPlay() {
   bgAudio.play(); 
  // change to the pause button
   playBtn.innerHTML = `<i class="fas fa-stop" data-id="stopMusic"></i>`;
-  //2. timer start
+  //2. timer start && start to count down carrots
   counterRunning = true;
   onTimer();
+  
   //3. bugs & carrot appear
   generateCarrot();
-  //4. count start
   generateBug();
+
+  // 4. click carrots and disappear
+  const carrot = document.querySelector('.carrot');
+    document.addEventListener('click', e => {
+      const id = e.target.dataset.id;
+      if(id) {
+        const selectedCarrot = document.querySelector(`.carrot[data-id="${id}"]`);
+        selectedCarrot.remove();
+      }
+    })
 }
 
 // timer function 
@@ -68,7 +78,7 @@ function incrementCounter(){
 const gameField = document.querySelector('.gameField');
 let top_position;
 let left_position;
-let carrotNum = 10;
+let carrotNum = 0;
 let bugNum = 13;
 function generateCarrot() {
   for(let i = 0; i < 10; i++) {
@@ -100,7 +110,9 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
+//carrot number 
+const carrotCount = document.querySelector('.carrotCount');
+carrotCount.textContent = `${carrotNum}`;
 
 
 
@@ -113,7 +125,7 @@ playBtn.addEventListener('click', (e) => {
     gameOver("Replay❓"); 
   } else{
     onPlay();
-    
+    carrotCount.textContent = `${carrotNum}`;
     
   }
 
@@ -122,3 +134,4 @@ playBtn.addEventListener('click', (e) => {
 replayBtn.addEventListener('click', () => {
   location.reload();
 });
+
