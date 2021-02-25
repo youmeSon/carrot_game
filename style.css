@@ -76,6 +76,10 @@ button {
   display: none;
 }
 
+.popup.active {
+  display: block;
+}
+
 button.replay {
   font-weight: bold;
   border-radius: 12px;
