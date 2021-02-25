@@ -1,9 +1,12 @@
 'use strict';
 
+
+
 const playBtn = document.querySelector('.play');
 const timer = document.querySelector('.timer');
 const result = document.querySelector('.result');
 const popUpResult = document.querySelector('.popup');
+const replayBtn = document.querySelector('.replay');
 
 //timer counter
 
@@ -38,7 +41,9 @@ function onPlay() {
   counterRunning = true;
   onTimer();
   //3. bugs & carrot appear
+  generateCarrot();
   //4. count start
+  generateBug();
 }
 
 // timer function 
@@ -59,24 +64,47 @@ function incrementCounter(){
 };
 
 
-// add bugs and carrots 
-// const gameField = document.querySelector('.gameField');
-// let carrotNum = 0;
-// function createCarrot() {
-//   const newCarrot = document.createElement('');
-//   newCarrot.innerHTML = `<img id="carrot" src="img/carrot.png" alt="carrot" data-carrotNum="${carrotNum}">`;
-//   carrotNum++;
-//   gameField.appendChild(newCarrot);
-// }
+// add bugs and carrots
+const gameField = document.querySelector('.gameField');
+let top_position;
+let left_position;
+let carrotNum = 10;
+let bugNum = 13;
+function generateCarrot() {
+  for(let i = 0; i < 10; i++) {
+    top_position = getRandomInt(55, 90);
+    left_position = getRandomInt(0, 95);
+    createImages("carrot", "img/carrot.png", i, top_position, left_position);
+    carrotNum ++;
+  }
+}
+function generateBug() {
+  for(let j = 0; j < 13; j++) {
+    top_position = getRandomInt(55, 90);
+    left_position = getRandomInt(0, 95);
+    createImages("bug", "img/bug.png", j, top_position, left_position);
+    bugNum ++;
+  }
+}
 
-// let bugNum = 0;
-// function createBug() {
-//   const newBug = document.createElement('img');
-//   newBug.innerHTML = `<img id="bug" src="img/bug.png" alt="bug" data-num="${bugNum}">`;
-//   bugNum++;
-//   gameField.appendChild(newBug);
-// }
-  
+function createImages(imageType, imgURL, index, top, left) {
+  const newName = document.createElement('div');
+  newName.innerHTML = `<img class="${imageType}" src="${imgURL}" alt="${imageType}" data-id="${imageType + "-" + index}">`;;
+  newName.style.position = 'absolute';
+  newName.style.top = `${top}%`;
+  newName.style.left = `${left}%`;
+  gameField.appendChild(newName);
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+
+
+
+
 
 // Event Listener 
 playBtn.addEventListener('click', (e) => {
@@ -85,9 +113,12 @@ playBtn.addEventListener('click', (e) => {
     gameOver("Replay❓"); 
   } else{
     onPlay();
+    
+    
   }
 
-  // createBug();
-  // createCarrot();
 });
 
+replayBtn.addEventListener('click', () => {
+  location.reload();
+});

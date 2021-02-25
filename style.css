@@ -6,6 +6,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
+  overflow: hidden;
 }
 
 button {
@@ -35,6 +36,7 @@ button {
 
 .play.active {
   opacity: 0;
+  cursor: none;
 }
 
 .play:hover {
@@ -105,4 +107,9 @@ button.replay {
   align-items: end;
   color: blanchedalmond;
   font-size: 40px;
+}
+
+img {
+  width: 80px;
+  height: 80px;
 }
