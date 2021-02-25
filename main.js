@@ -1,12 +1,25 @@
 'use strict';
 
 const playBtn = document.querySelector('.play');
-const bgAudio = new Audio('sound/bg.mp3');
 const timer = document.querySelector('.timer');
 const result = document.querySelector('.result');
 const popUpResult = document.querySelector('.popup');
 
-function onPlay () {
+// sounds 
+const bgAudio = new Audio('sound/bg.mp3');
+const failAudio = new Audio('sound/alert.wav');
+const bugPullAudio = new Audio('sound/bug_pull.mp3');
+const carrotPullAudio = new Audio('sound/carrot_pull.mp3');
+const winAudio = new Audio('sound/game_win.mp3');
+
+//Option. fail
+function onFail() {
+  bgAudio.pause();
+  failAudio.play();
+}
+
+
+function onPlay() {
   //1. music on 
   bgAudio.play(); 
  // change to the pause button
@@ -16,7 +29,7 @@ function onPlay () {
   //3. bugs & carrot appear
   //4. count start
 }
-function onStop () {
+function onStop() {
   bgAudio.pause();
 }
 
@@ -28,6 +41,7 @@ function onTimer() {
       clearInterval(countdownTimer);
       popUpResult.classList.add('active');
       result.textContent = `You Failed!❌`;
+      onFail();
     }
     timer.textContent = `0:${timeLeft}`;
     timeLeft -= 1;
@@ -38,7 +52,7 @@ function onTimer() {
 // add bugs and carrots 
 const gameField = document.querySelector('.gameField');
 let carrotNum = 0;
-function createCarrot () {
+function createCarrot() {
   const newCarrot = document.createElement('');
   newCarrot.innerHTML = `<img id="carrot" src="img/carrot.png" alt="carrot" data-carrotNum="${carrotNum}">`;
   carrotNum++;
@@ -46,7 +60,7 @@ function createCarrot () {
 }
 
 let bugNum = 0;
-function createBug () {
+function createBug() {
   const newBug = document.createElement('img');
   newBug.innerHTML = `<img id="bug" src="img/bug.png" alt="bug" data-num="${bugNum}">`;
   bugNum++;
