@@ -33,6 +33,10 @@ button {
   box-shadow: none;
 }
 
+.play.active {
+  opacity: 0;
+}
+
 .play:hover {
   transform: scale(1.1);
 }
@@ -64,13 +68,15 @@ button {
 }
 
 .popup {
+  width: 300px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: rgb(20, 20, 20, 0.45);
   position: absolute;
   top: 60%;
-  left: 40%;
+  left: 38%;
   padding: 10px 40px;
   border-radius: 12px;
   display: none;
@@ -90,6 +96,7 @@ button.replay {
   outline: none;
   cursor: pointer;
   font-size: 30px;
+  margin: 10px;
 }
 
 .result {
