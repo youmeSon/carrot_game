@@ -23,7 +23,7 @@ const winAudio = new Audio('sound/game_win.mp3');
 
 function gameOver(messageText){
   bgAudio.pause();
-  failAudio.play();
+  
   playBtn.classList.add('active');
   popUpResult.classList.add('active');
   result.textContent = messageText;
@@ -48,14 +48,19 @@ function onPlay() {
   // 4. click carrots and disappear
  
     document.addEventListener('click', e => {
-      const id = e.target.dataset.id;
-      if(id) {
-        const selectedCarrot = document.querySelector(`.carrot[data-id="${id}"]`);
+      if(e.target.classList.contains('carrot')) {
         carrotPullAudio.play();
-        selectedCarrot.remove();
+        e.target.remove();
+        carrotNum --;
+        carrotCount.textContent = `${carrotNum}`;
+        if(carrotNum == 0) {
+          gameOver("You Won!🎉");
+          winAudio.play();
+        }
       } else if(e.target.className == "bug") {
         bugPullAudio.play();
         gameOver("You Failed!❌");
+        failAudio.play();
       }
     })
 }
@@ -75,6 +80,7 @@ function incrementCounter(){
   } else if(counter == 0){
     clearInterval(counterInterval);
     gameOver("You Failed!❌");
+    failAudio.play();
   }
 };
 
@@ -84,33 +90,27 @@ const gameField = document.querySelector('.gameField');
 let top_position;
 let left_position;
 let carrotNum = 0;
-let bugNum = 13;
+let bugNum = 10;
 function generateCarrot() {
   for(let i = 0; i < 10; i++) {
     top_position = getRandomInt(55, 90);
     left_position = getRandomInt(0, 95);
-    createImages("carrot", "img/carrot.png", i, top_position, left_position);
+    createImages("carrot", "img/carrot.png", top_position, left_position);
     carrotNum ++;
   }
 }
 function generateBug() {
-  for(let j = 0; j < 13; j++) {
+  for(let j = 0; j < 10; j++) {
     top_position = getRandomInt(55, 90);
     left_position = getRandomInt(0, 95);
-    // createImages("bug", "img/bug.png", j, top_position, left_position);
-    const bugCreate = document.createElement('div');
-    bugCreate.innerHTML = `<img class="bug" src="img/bug.png" alt="bug">`;;
-    bugCreate.style.position = 'absolute';
-    bugCreate.style.top = `${top_position}%`;
-    bugCreate.style.left = `${left_position}%`;
-    gameField.appendChild(bugCreate);
+    createImages("bug", "img/bug.png", top_position, left_position);
     bugNum ++;
   }
 }
 
-function createImages(imageType, imgURL, index, top, left) {
+function createImages(imageType, imgURL, top, left) {
   const newName = document.createElement('div');
-  newName.innerHTML = `<img class="${imageType}" src="${imgURL}" alt="${imageType}" data-id="${imageType + "-" + index}">`;;
+  newName.innerHTML = `<img class="${imageType}" src="${imgURL}" alt="${imageType}">`;
   newName.style.position = 'absolute';
   newName.style.top = `${top}%`;
   newName.style.left = `${left}%`;
@@ -121,11 +121,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-//carrot number 
+//carrot number  - Count 
 const carrotCount = document.querySelector('.carrotCount');
 carrotCount.textContent = `${carrotNum}`;
-
-
+const carrot = document.querySelector('.carrot');
 
 
 
@@ -134,10 +133,10 @@ playBtn.addEventListener('click', (e) => {
   if(e.target.dataset.id === "stopMusic") {
     playBtn.innerHTML = `<i class="fas fa-play"></i>`;
     gameOver("Replay❓"); 
-  } else{
+    failAudio.play();
+  } else if(e.target.classList.contains('fa-play')){
     onPlay();
     carrotCount.textContent = `${carrotNum}`;
-    
   }
 
 });
