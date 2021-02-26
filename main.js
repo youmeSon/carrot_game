@@ -1,18 +1,10 @@
 'use strict';
 
-
-
 const playBtn = document.querySelector('.play');
 const timer = document.querySelector('.timer');
 const result = document.querySelector('.result');
 const popUpResult = document.querySelector('.popup');
 const replayBtn = document.querySelector('.replay');
-
-//timer counter
-
-let counterInterval = null;
-let counter = 10;
-let counterRunning = false;
 
 // sounds 
 const bgAudio = new Audio('sound/bg.mp3');
@@ -23,14 +15,12 @@ const winAudio = new Audio('sound/game_win.mp3');
 
 function gameOver(messageText){
   bgAudio.pause();
-  
   playBtn.classList.add('active');
   popUpResult.classList.add('active');
   result.textContent = messageText;
   counterRunning = false;
   clearInterval(counterInterval);
 }
-
 
 function onPlay() {
   //1. music on 
@@ -40,32 +30,32 @@ function onPlay() {
   //2. timer start && start to count down carrots
   counterRunning = true;
   onTimer();
-  
   //3. bugs & carrot appear
   generateCarrot();
   generateBug();
-
   // 4. click carrots and disappear
- 
-    document.addEventListener('click', e => {
-      if(e.target.classList.contains('carrot')) {
-        carrotPullAudio.play();
-        e.target.remove();
-        carrotNum --;
-        carrotCount.textContent = `${carrotNum}`;
-        if(carrotNum == 0) {
-          gameOver("You Won!🎉");
-          winAudio.play();
-        }
-      } else if(e.target.className == "bug") {
-        bugPullAudio.play();
-        gameOver("You Failed!❌");
-        failAudio.play();
+  document.addEventListener('click', e => {
+    if(e.target.classList.contains('carrot')) {
+      carrotPullAudio.play();
+      e.target.remove();
+      carrotNum --;
+      carrotCount.textContent = `${carrotNum}`;
+      if(carrotNum == 0) {
+        gameOver("You Won!🎉");
+        winAudio.play();
       }
-    })
+    } else if(e.target.className == "bug") {
+      bugPullAudio.play();
+      gameOver("You Failed!❌");
+      failAudio.play();
+    }
+  })
 }
 
-
+//timer counter
+let counterInterval = null;
+let counter = 10;
+let counterRunning = false;
 // timer function 
 function onTimer() {
   counterInterval = setInterval(function() {
@@ -83,7 +73,6 @@ function incrementCounter(){
     failAudio.play();
   }
 };
-
 
 // add bugs and carrots
 const gameField = document.querySelector('.gameField');
@@ -121,12 +110,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-//carrot number  - Count 
+//carrot number - Count 
 const carrotCount = document.querySelector('.carrotCount');
 carrotCount.textContent = `${carrotNum}`;
 const carrot = document.querySelector('.carrot');
-
-
 
 // Event Listener 
 playBtn.addEventListener('click', (e) => {
@@ -138,7 +125,6 @@ playBtn.addEventListener('click', (e) => {
     onPlay();
     carrotCount.textContent = `${carrotNum}`;
   }
-
 });
 
 replayBtn.addEventListener('click', () => {
