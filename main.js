@@ -90,7 +90,7 @@ const gameField = document.querySelector('.gameField');
 let top_position;
 let left_position;
 let carrotNum = 0;
-let bugNum = 10;
+let bugNum = 9;
 function generateCarrot() {
   for(let i = 0; i < 10; i++) {
     top_position = getRandomInt(55, 90);
@@ -100,7 +100,7 @@ function generateCarrot() {
   }
 }
 function generateBug() {
-  for(let j = 0; j < 10; j++) {
+  for(let j = 0; j < 9; j++) {
     top_position = getRandomInt(55, 90);
     left_position = getRandomInt(0, 95);
     createImages("bug", "img/bug.png", top_position, left_position);
