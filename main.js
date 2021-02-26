@@ -46,15 +46,20 @@ function onPlay() {
   generateBug();
 
   // 4. click carrots and disappear
-  const carrot = document.querySelector('.carrot');
+ 
     document.addEventListener('click', e => {
       const id = e.target.dataset.id;
       if(id) {
         const selectedCarrot = document.querySelector(`.carrot[data-id="${id}"]`);
+        carrotPullAudio.play();
         selectedCarrot.remove();
+      } else if(e.target.className == "bug") {
+        bugPullAudio.play();
+        gameOver("You Failed!❌");
       }
     })
 }
+
 
 // timer function 
 function onTimer() {
@@ -92,7 +97,13 @@ function generateBug() {
   for(let j = 0; j < 13; j++) {
     top_position = getRandomInt(55, 90);
     left_position = getRandomInt(0, 95);
-    createImages("bug", "img/bug.png", j, top_position, left_position);
+    // createImages("bug", "img/bug.png", j, top_position, left_position);
+    const bugCreate = document.createElement('div');
+    bugCreate.innerHTML = `<img class="bug" src="img/bug.png" alt="bug">`;;
+    bugCreate.style.position = 'absolute';
+    bugCreate.style.top = `${top_position}%`;
+    bugCreate.style.left = `${left_position}%`;
+    gameField.appendChild(bugCreate);
     bugNum ++;
   }
 }
